@@ -11,8 +11,20 @@ apps=(
         'nginx'
 
     )
+
+fwservice=(
+        'http'
+        'https'    
+    )
+
+fwport=(
+        '8080/tcp'
+        '443/tcp'
+)
 #the below separates the list entry above to allo for loop to work
 app=$( IFS=$'\n'; echo "${apps[*]}" )
+service=$( IFS=$'\n'; echo "${fwservice[*]}" )
+port=$( IFS=$'\n'; echo "${fwport[*]}" )
 
 for a in $app
 do
@@ -42,10 +54,19 @@ sudo systemctl start jenkins.service
 sudo systemctl enable jenkins.service
 
 #Firewall config
-sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp
-sudo firewall-cmd --zone=public --permanent --add-port=443/tcp
-sudo firewall-cmd --zone=public --permanent --add-service=http
-sudo firewall-cmd --zone=public --permanent --add-service=https
+
+for port in $fwport
+do
+    sudo firewall-cmd --zone=public --permanent --add-port=$fwport
+
+done
+
+for service in $fwservice
+do
+
+    sudo firewall-cmd --zone=public --permanent --add-service=$fwservice
+
+done
 
 sudo firewall-cmd --reload
 
