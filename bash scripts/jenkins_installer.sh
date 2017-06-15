@@ -32,10 +32,10 @@ echo $JRE_HOME
 #install repository for Jenkins
 wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
 sudo rpm --import http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
-yum install jenkins
+yum install jenkins -y
 
 #update system with new repo
-yum update
+yum update -y
 
 #Start and enable jenkins service
 sudo systemctl start jenkins.service
