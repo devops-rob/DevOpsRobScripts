@@ -12,19 +12,12 @@ apps=(
 
     )
 
-fwservice=(
-        'http'
-        'https'    
-    )
+fwservice=(http https)
 
-fwport=(
-        '8080/tcp'
-        '443/tcp'
-)
+fwport=(8080/tcp 443/tcp)
+
 #the below separates the list entry above to allo for loop to work
 app=$( IFS=$'\n'; echo "${apps[*]}" )
-service=$( IFS=$'\n'; echo "${fwservice[*]}" )
-port=$( IFS=$'\n'; echo "${fwport[*]}" )
 
 for a in $app
 do
