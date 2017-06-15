@@ -8,7 +8,7 @@ apps=(
         'wget'
 	    'vim'
         'java-1.8.0-openjdk.x86_64'
-        'nginx'
+        
 
     )
 
@@ -16,8 +16,16 @@ fwservice=(http https)
 
 fwport=(8080/tcp 443/tcp)
 
-#the below separates the list entry above to allo for loop to work
+#the below separates the list entry above to allow for loop to work on entire list
 app=$( IFS=$'\n'; echo "${apps[*]}" )
+
+#functions
+function start-services {
+    sudo systemctl start jenkins.service
+    sudo systemctl enable jenkins.service
+    sudo systemctl start nginx.service
+    sudo systemctl enable nginx.service
+}
 
 for a in $app
 do
@@ -42,9 +50,7 @@ yum install jenkins -y
 #update system with new repo
 yum update -y
 
-#Start and enable jenkins service
-sudo systemctl start jenkins.service
-sudo systemctl enable jenkins.service
+yum install nginx -y
 
 #Firewall config
 
@@ -76,5 +82,4 @@ sed -i 'proxy_set_header X-Real-IP $remote_addr;/a \ proxy_set_header X-Forwarde
 sed -i 'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;/a \ proxy_set_header X-Forwarded-Proto $scheme;' /etc/nginx/nginx.conf
 
 #start nginx service
-sudo systemctl start nginx.service
-sudo systemctl enable nginx.service
+start-service
