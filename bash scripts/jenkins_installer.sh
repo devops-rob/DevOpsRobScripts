@@ -43,9 +43,24 @@ sudo systemctl enable jenkins.service
 
 #Firewall config
 sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp
+sudo firewall-cmd --zone=public --permanent --add-port=443/tcp
 sudo firewall-cmd --zone=public --permanent --add-service=http
+sudo firewall-cmd --zone=public --permanent --add-service=https
+
 sudo firewall-cmd --reload
 
 #SELinux disable
 setenforce 0
 
+#edit nginx config files
+
+sed -i 'location / {/a \ proxy_pass http://127.0.0.1:8080;' /etc/nginx/nginx.conf
+sed -i 'proxy_pass http://127.0.0.1:8080;/a \ proxy_redirect off;' /etc/nginx/nginx.conf
+sed -i 'proxy_redirect off;/a \ proxy_set_header Host $host;' /etc/nginx/nginx.conf
+sed -i 'proxy_set_header Host $host;/a \ proxy_set_header X-Real-IP $remote_addr;' /etc/nginx/nginx.conf
+sed -i 'proxy_set_header X-Real-IP $remote_addr;/a \ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;' /etc/nginx/nginx.conf
+sed -i 'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;/a \ proxy_set_header X-Forwarded-Proto $scheme;' /etc/nginx/nginx.conf
+
+#start nginx service
+sudo systemctl start nginx.service
+sudo systemctl enable nginx.service
