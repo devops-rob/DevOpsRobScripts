@@ -35,46 +35,22 @@
       - openssl-libs.x86_64
       - apr-util-openssl.x86_64
 
-  
-  tasks:
    - name: service management configuration
      systemd:
-       name: httpd
-       daemon_reload: yes
+       name: "{{ item }}"
+       deamon_reload: yes
        enabled: yes
        state: restarted
-     systemd:
-       name: firewalld
-       daemon_reload: yes
-       enabled: yes
-       state: started
-     systemd:
-       name: ntpd
-       daemon_reload: yes
-       enabled: yes
-       state: restarted
-    
-  tasks:
+     with_items:
+       - httpd
+       - firewalld
+       - ntpd
+
    - name: Firewall configuration
      firewalld:
-       service: http
+       service: "{{ items }}"
        permanent: yes
        state: enabled
-     firewalld:
-       service: https
-       permanent: yes
-       state: enabled
-  - debug: var=item.stdout
-    with_items: echo.result
-#task:
- #- name: Let's encrypt SSL certificate Authority configuration
-  # letsencrypt:
-   #  account_key: '{{ account_key }}'
-    # csr: '{{ csr }}'
-     #dest: '{{ cert_dest }}'
-     #remaining_days: '{{ remaining_days }}'
-
-
-
-
-    
+     with_items:
+       - http
+       - https
