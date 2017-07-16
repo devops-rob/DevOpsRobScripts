@@ -1,0 +1,16 @@
+--- 
+handlers: 
+  - name: "apache restart"
+    service: 
+      name: httpd
+      state: restarted
+
+  - name: "network restart"
+    service:
+      name: network
+      state: restarted
+
+  - name: "firewall restart"
+    service:
+      name: firewalld
+      state: restarted

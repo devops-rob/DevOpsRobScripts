@@ -1,0 +1,82 @@
+---
+- hosts: load_balancer
+  become: true
+  become_method: sudo
+  remote_user: ansible
+- tasks: 
+  - name: "add repo"
+    yum_repository: 
+      baseurl: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+      name: epel
+      state: present
+  - name: "install nginx"
+    yum:
+      name: nginx
+      state: latest
+      update_cache: true
+  - name: insert load balancer configuration
+    blockinfile:
+      path: /etc/nginx/nginx.conf
+      insertafter:
+      block: |
+        https {
+              upstream backend {
+                  server 192.168.1.202;
+                  server 192.168.1.77;
+              }
+        }
+      notify: restart load balancer
+  - name: remove the index.html file
+    file:
+      path: /usr/share/nginx/html/index.html
+      state: absent
+      notify: restart load balancer
+  - name: remove port 80 listener in nginx config
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^server {'
+      line: '#server {'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^listen       80 default_server;'
+      line: '#listen       80 default_server;'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^listen       [::]:80 default_server;'
+      line: '#listen       [::]:80 default_server;'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^server_name  _;'
+      line: '#server_name  _;'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^root         /usr/share/nginx/html;'
+      line: '#root         /usr/share/nginx/html;'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^include /etc/nginx/default.d/*.conf;'
+      line: '#include /etc/nginx/default.d/*.conf;'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^location / {'
+      line: '#location / {'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^}'
+      line: '#}'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^error_page 404 /404.html;'
+      line: '#error_page 404 /404.html;'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^location = /40x.html {'
+      line: '#location = /40x.html {'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^error_page 500 502 503 504 /50x.html;'
+      line: '#error_page 500 502 503 504 /50x.html;'
+  - lineinfile:
+      path: /etc/nginx/nginx.conf
+      regexp: '^location = /50x.html {'
+      line: '#location = /50x.html {'

@@ -1,15 +1,10 @@
 --- #install & configure main web server in LAMP Stack
-- hosts: web_servers
+- hosts: web_server
   become: true
   become_method: sudo
   remote_user: ansible
   gather_facts: yes
   connection: ssh
-  vars:
-    remaining_days: 7
-    account_key: /etc/whatever_folder_i_make
-    cert_dest: /etc/whatever_folder_i_make
-    csr: /etc/whatever_file_i_make
 
   tasks:
    - name: Install packages for web server
@@ -26,9 +21,6 @@
       - php
       - gcc
       - java
-      - certbot
-      - python2-certbot.noarch
-      - python-certbot-apache #Certificate Authority to use for letsencrypt
       - openssl-devel.x86_64
       - pyOpenSSL.x86_64
       - pyOpenSSL-doc.noarch
@@ -38,13 +30,12 @@
    - name: service management configuration
      systemd:
        name: "{{ item }}"
-       deamon_reload: yes
+       daemon_reload: yes
        enabled: yes
        state: restarted
      with_items:
        - httpd
        - firewalld
-       - ntpd
 
    - name: Firewall configuration
      firewalld:
