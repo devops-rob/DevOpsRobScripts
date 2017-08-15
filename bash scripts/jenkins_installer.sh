@@ -82,4 +82,4 @@ sed -i 'proxy_set_header X-Real-IP $remote_addr;/a \ proxy_set_header X-Forwarde
 sed -i 'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;/a \ proxy_set_header X-Forwarded-Proto $scheme;' /etc/nginx/nginx.conf
 
 #start nginx service
-start-service
+start-service 
