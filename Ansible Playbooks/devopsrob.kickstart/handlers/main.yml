@@ -1,0 +1,7 @@
+---
+# handlers file for devopsrob.kickstart
+- name: restart_xinetd
+  service:
+    name: xinetd
+    state: restarted
+    enabled: yes

@@ -1,0 +1,9 @@
+---
+# defaults file for devopsrob.kickstart
+- packages:
+  - "httpd"
+  - "xinetd"
+  - "dnsmasq"
+  - "tftp-server"
+  - "syslinux"
+  - "pykickstart"
