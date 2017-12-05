@@ -1,7 +1,7 @@
 galaxy_info:
-  author: your name
-  description: your description
-  company: your company (optional)
+  author: DevOpsRob
+  description: This role installs the required components and configurations for a Kickstart server to the users requirements
+  company: DevOpsRob
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
