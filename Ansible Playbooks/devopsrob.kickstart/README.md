@@ -1,22 +1,20 @@
-Role Name
+devopsrob.kickstart
 =========
 
-A brief description of the role goes here.
+This role installs and configures the required components for a Kickstart server.  At present, this role is for use with CentOS and Redhat linux distributions only.  PLEASE NOTE THAT THIS ROLE IS STILL UNDER DEVELOPMENT.
 
 Requirements
 ------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Requires CentOS or Redhat Linux distribution
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Most of the Variables in this role utilise the vars_prompt ansible feature to prompt for users input at the beginning of the playbook, allowing users to customise the installation of their kickstart instance to their needs
 
 Dependencies
 ------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+There are no external dependencies for this role
 
 Example Playbook
 ----------------
@@ -35,4 +33,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role is written and maintained by Robert Barnes aka DevOpsRob
