@@ -5,10 +5,10 @@ repo=http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
 apps=(
       	'epel-release'
         'nano'
-	    'net-tools'
+	'net-tools'
         'wget'
-	    'vim'
-	    'phpmyadmin'
+	'vim'
+	'phpmyadmin'
         
 
     )
