@@ -4,9 +4,9 @@
 apps=(
       	'epel-release'
         'nano'
-	    'net-tools'
+	'net-tools'
         'wget'
-	    'vim'
+	'vim'
         'java-1.8.0-openjdk.x86_64'
     )
 
@@ -65,8 +65,6 @@ function configure-firewalld {
     sudo firewall-cmd --reload
 }
 
-#SELinux disable
-#setenforce 0
 app-install
 java-path
 install-jenkins
